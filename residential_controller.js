@@ -4,46 +4,47 @@ let callButtonId = 1
 
 //Defining the column class
 class Column {
-    constructor (id, status, elevatorsPerColumn, numberOfFloors) {
-        this.id = id
+    constructor (id, status, amountOfElevators, amountOfFloors) {
+        this.ID = id
         this.status = status
-        this.elevatorsPerColumn = elevatorsPerColumn
-        this.numberOfFloors = numberOfFloors
-        this.elevatorList = []
-        this.callButtonList = []
+        this.amountOfFloors = amountOfFloors
+        this.amountOfElevators = amountOfElevators
+        this.elevatorsList = []
+        this.callButtonsList = []
 
-        this.makeElevator(numberOfFloors, elevatorsPerColumn) //Calling the function to create elevators
-        this.makeCallButton(numberOfFloors) //Calling the function to create the call buttons
+        this.makeElevator(amountOfFloors, amountOfElevators) //Calling the function to create elevators
+        this.makeCallButton(amountOfFloors) //Calling the function to create the call buttons
     }
 
     //Function to create elevators
-    makeElevator(numberOfFloors, elevatorsPerColumn) {
-        for (let i = 0; i < elevatorsPerColumn; i++) {
-            let elevator = new Elevator(elevatorId, 'idle', numberOfFloors, 1);
-            this.elevatorList.push(elevator);
+    makeElevator(amountOfFloors, amountOfElevators) {
+        for (let i = 0; i < amountOfElevators; i++) {
+            let elevator = new Elevator(elevatorId, 'idle', amountOfFloors, 1);
+            this.elevatorsList.push(elevator);
             elevatorId++;
         }
     }
 
     //Function to create call buttons
-    makeCallButton(numberOfFloors) {
+    makeCallButton(amountOfFloors) {
         let callButtonCounter = 1;
-        for (let i = 0; i < numberOfFloors; i++) {
+        for (let i = 0; i < amountOfFloors; i++) {
             //If not last floor
-            if (callButtonCounter < numberOfFloors) {
+            if (callButtonCounter < amountOfFloors) {
                 let callButton = new CallButton(callButtonId, 'off', callButtonCounter, 'up')
-                this.callButtonList.push(callButton);
+                this.callButtonsList.push(callButton);
                 callButtonId++;
             }
             //If not first floor
             if (callButtonCounter > 1) {
                 let callButton = new CallButton(callButtonId, 'off', callButtonCounter, 'down')
-                this.callButtonList.push(callButton);
+                this.callButtonsList.push(callButton);
                 callButtonId++;
             }
             callButtonCounter++;
         }
     }
+
     //User calls an elevator
     requestElevator(floor, direction) {
         let elevator = this.findBestElevator(floor, direction);
@@ -61,7 +62,7 @@ class Column {
             bestElevator: null,
             referenceGap: 1000000
         }
-        for (let i = 0; i < this.elevatorList; i++) {
+        for (let i = 0; i < this.elevatorsList; i++) {
             //Elevator is at floor going in correct direction
             if (requestedFloor == elevator.currentFloor && elevator.status == notMoving && requestedDirection == elevator.direction) {
                 bestElevatorInfo = this.checkBestElevator(1, elevator, bestElevatorInfo, requestedFloor)
@@ -109,25 +110,25 @@ class Column {
 
 //Defining the elevator class
 class Elevator {
-    constructor (id, status, numberOfFloors, currentFloor) {
-        this.id = id
+    constructor (id, status, amountOfFloors, currentFloor) {
+        this.ID = id
         this.status = status
-        this.numberOfFloors = numberOfFloors
-        this.currentFloor = currentFloor
+        this.amountOfFloors = amountOfFloors
         this.direction;
-        this.doorStatus = new Door(id, 'closed')
-        this.floorRequestButtonList = []
+        this.currentFloor = currentFloor
+        this.door = new Door(id, 'closed')
+        this.floorRequestButtonsList = []
         this.floorRequestList = []
 
-        this.makeFloorRequestButton(numberOfFloors) //Calling the function to create floor request buttons
+        this.makeFloorRequestButton(amountOfFloors) //Calling the function to create floor request buttons
     }
 
     //Function to create floor request buttons
-    makeFloorRequestButton(numberOfFloors) {
+    makeFloorRequestButton(amountOfFloors) {
         let floorRequestButtonCounter = 1
-        for (let i = 0; i < numberOfFloors; i++) {
+        for (let i = 0; i < amountOfFloors; i++) {
             let floorRequestButton = new FloorRequestButton(floorRequestButtonId, 'off', floorRequestButtonCounter)
-            this.floorRequestButtonList.push(floorRequestButton);
+            this.floorRequestButtonsList.push(floorRequestButton);
             floorRequestButtonCounter++;
             floorRequestButtonId++;
         }
@@ -173,7 +174,7 @@ class Elevator {
 
     //Door operation controller
     doorController() {
-        this.doorStatus = 'opened'
+        this.door = 'opened'
         //wait 5 seconds
         if (!this.overweight) {
             this.door.status = 'closing'
@@ -198,7 +199,7 @@ class Elevator {
 //Defining call button class
 class CallButton {
     constructor (id, status, floor, direction) {
-        this.id = id
+        this.ID = id
         this.status = status
         this.floor = floor
         this.direction = direction
@@ -209,7 +210,7 @@ class CallButton {
 //Defining floor request button class
 class FloorRequestButton {
     constructor (id, status, floor) {
-        this.id = id
+        this.ID = id
         this.status = status
         this.floor = floor
     }
@@ -219,7 +220,7 @@ class FloorRequestButton {
 //Defining door class
 class Door {
     constructor (id, status) {
-        this.id = id
+        this.ID = id
         this.status = status
     }
 
@@ -232,8 +233,8 @@ console.log(column);
 TESTING SCENARIOS 
 let column = new Column(1, 'online', 2, 10);
 
-column.elevatorList[0].currentFloor = x
-column.elevatorList[1].currentFloor = y
+column.elevatorsList[0].currentFloor = x
+column.elevatorsList[1].currentFloor = y
 
 let elevator = column.requestElevator(z, [direction])
 elevator.requestFloor(a)
