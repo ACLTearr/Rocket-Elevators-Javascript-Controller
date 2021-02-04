@@ -303,6 +303,6 @@ function scenario3() {
 //scenario2()
 
 //Uncomment to run scenario 3
-scenario3()
+//scenario3()
 
 module.exports = {Column, Elevator, CallButton, FloorRequestButton, Door}
