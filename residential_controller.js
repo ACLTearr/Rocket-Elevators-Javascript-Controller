@@ -1,6 +1,6 @@
-let elevatorId = 1
-let floorRequestButtonId = 1
-let callButtonId = 1
+let elevatorId = 1;
+let floorRequestButtonId = 1;
+let callButtonId = 1;
 
 //Defining the column class
 class Column {
@@ -12,15 +12,15 @@ class Column {
         this.elevatorsList = []
         this.callButtonsList = []
 
-        this.makeElevator(amountOfFloors, amountOfElevators) //Calling the function to create elevators
-        this.makeCallButton(amountOfFloors) //Calling the function to create the call buttons
+        this.makeElevator(amountOfFloors, amountOfElevators); //Calling the function to create elevators
+        this.makeCallButton(amountOfFloors); //Calling the function to create the call buttons
     }
 
     //Function to create elevators
     makeElevator(amountOfFloors, amountOfElevators) {
         for (let i = 0; i < amountOfElevators; i++) {
             let elevator = new Elevator(elevatorId, 'idle', amountOfFloors, 1);
-            this.elevatorsList.push(elevator)
+            this.elevatorsList.push(elevator);
             elevatorId++;
         }
     }
@@ -31,13 +31,13 @@ class Column {
         for (let i = 0; i < amountOfFloors; i++) {
             //If not last floor
             if (callButtonCounter < amountOfFloors) {
-                let callButton = new CallButton(callButtonId, 'off', callButtonCounter, 'up')
-                this.callButtonsList.push(callButton)
-                callButtonId++
+                let callButton = new CallButton(callButtonId, 'off', callButtonCounter, 'up');
+                this.callButtonsList.push(callButton);
+                callButtonId++;
             }
             //If not first floor
             if (callButtonCounter > 1) {
-                let callButton = new CallButton(callButtonId, 'off', callButtonCounter, 'down')
+                let callButton = new CallButton(callButtonId, 'off', callButtonCounter, 'down');
                 this.callButtonsList.push(callButton);
                 callButtonId++;
             }
@@ -47,22 +47,22 @@ class Column {
 
     //User calls an elevator
     requestElevator(floor, direction) {
-        console.log('A request for an elevator is made from floor ' + floor + ', going ' + direction + '.') 
-        let elevator = this.findBestElevator(floor, direction)
-        console.log('Elevator ' + elevator.ID + ' is the best elevator, so it is sent.')
-        elevator.floorRequestList.push(floor)
-        elevator.sortFloorList()
-        console.log('Elevator is moving.')
-        elevator.moveElevator()
-        console.log('Elevator is ' + elevator.status + '.')
-        elevator.doorController()
+        console.log('A request for an elevator is made from floor ' + floor + ', going ' + direction + '.');
+        let elevator = this.findBestElevator(floor, direction);
+        console.log('Elevator ' + elevator.ID + ' is the best elevator, so it is sent.');
+        elevator.floorRequestList.push(floor);
+        elevator.sortFloorList();
+        console.log('Elevator is moving.');
+        elevator.moveElevator();
+        console.log('Elevator is ' + elevator.status + '.');
+        elevator.doorController();
         return elevator
     }
 
     //Find best Elevator
     findBestElevator(floor, direction) {
-        let requestedFloor = floor
-        let requestedDirection = direction
+        let requestedFloor = floor;
+        let requestedDirection = direction;
         let bestElevatorInfo = {
             bestElevator: null,
             bestScore: 5,
@@ -72,19 +72,19 @@ class Column {
         this.elevatorsList.forEach(elevator => {
             //Elevator is at floor going in correct direction
             if (requestedFloor == elevator.currentFloor && elevator.status == 'stopped' && requestedDirection == elevator.direction) {
-                bestElevatorInfo = this.checkBestElevator(1, elevator, bestElevatorInfo, requestedFloor)
+                bestElevatorInfo = this.checkBestElevator(1, elevator, bestElevatorInfo, requestedFloor);
             //Elevator is lower than user and moving through them to destination
             } else if (requestedFloor > elevator.currentFloor && elevator.direction == 'up' && requestedDirection == elevator.direction) {
-                bestElevatorInfo = this.checkBestElevator(2, elevator, bestElevatorInfo, requestedFloor)
+                bestElevatorInfo = this.checkBestElevator(2, elevator, bestElevatorInfo, requestedFloor);
             //Elevator is higher than user and moving through them to destination
             } else if (requestedFloor < elevator.currentFloor && elevator.direction == 'down' && requestedDirection == elevator.direction) {
-                bestElevatorInfo = this.checkBestElevator(2, elevator, bestElevatorInfo, requestedFloor)
+                bestElevatorInfo = this.checkBestElevator(2, elevator, bestElevatorInfo, requestedFloor);
             //Elevator is idle
             } else if (elevator.status == 'idle') {
-                bestElevatorInfo = this.checkBestElevator(3, elevator, bestElevatorInfo, requestedFloor)
+                bestElevatorInfo = this.checkBestElevator(3, elevator, bestElevatorInfo, requestedFloor);
             //Elevator is last resort
             } else {
-                bestElevatorInfo = this.checkBestElevator(4, elevator, bestElevatorInfo, requestedFloor)
+                bestElevatorInfo = this.checkBestElevator(4, elevator, bestElevatorInfo, requestedFloor);
             }
         });
         return bestElevatorInfo.bestElevator
@@ -117,20 +117,20 @@ class Elevator {
         this.ID = id
         this.status = status
         this.amountOfFloors = amountOfFloors
-        this.direction;
         this.currentFloor = currentFloor
+        this.direction;
         this.door = new Door(id, 'closed')
         this.floorRequestButtonsList = []
         this.floorRequestList = []
 
-        this.makeFloorRequestButton(amountOfFloors) //Calling the function to create floor request buttons
+        this.makeFloorRequestButton(amountOfFloors); //Calling the function to create floor request buttons
     }
 
     //Function to create floor request buttons
     makeFloorRequestButton(amountOfFloors) {
-        let floorRequestButtonCounter = 1
+        let floorRequestButtonCounter = 1;
         for (let i = 0; i < amountOfFloors; i++) {
-            let floorRequestButton = new FloorRequestButton(floorRequestButtonId, 'off', floorRequestButtonCounter)
+            let floorRequestButton = new FloorRequestButton(floorRequestButtonId, 'off', floorRequestButtonCounter);
             this.floorRequestButtonsList.push(floorRequestButton);
             floorRequestButtonCounter++;
             floorRequestButtonId++;
@@ -139,41 +139,40 @@ class Elevator {
 
     //User requesting floor inside elevator
     requestFloor(floor) {
-        console.log('The elevator is requested to move to floor ' + floor + '.')
-        this.floorRequestList.push(floor)
-        this.sortFloorList()
-        console.log('Elevator is moving.')
-        console.log('current floor: ' + elevator.currentFloor)
-        this.moveElevator()
-        console.log('current floor: ' + elevator.currentFloor)
-        console.log('Elevator is ' + elevator.status + '.')
-        this.doorController()
+        console.log('The elevator is requested to move to floor ' + floor + '.');
+        this.floorRequestList.push(floor);
+        this.sortFloorList();
+        console.log('Elevator is moving.');
+        this.moveElevator();
+        console.log('Elevator is ' + this.status + '.');
+        this.doorController();
         if (this.floorRequestList.length = []) {
             this.status = 'idle'
        }
-        console.log('Elevator is ' + elevator.status + '.')
+        console.log('Elevator is ' + this.status + '.');
     }
 
     //Moving elevator
     moveElevator() {
         while (this.floorRequestList.length != []) {
-            let destination = this.floorRequestList[0]
+            let destination = this.floorRequestList[0];
             this.status = 'moving'
             if (this.currentFloor < destination) {
                 this.direction = 'up'
                 while (this.currentFloor < destination) {
                     this.currentFloor++
-                    console.log('Elevator is at floor: ' + this.currentFloor)
+                    console.log('Elevator is at floor: ' + this.currentFloor);
                 }
             } else if (this.currentFloor > destination) {
                 this.direction = 'down'
                 while (this.currentFloor > destination) {
                     this.currentFloor--      
-                    console.log('Elevator is at floor: ' + this.currentFloor)
+                    console.log('Elevator is at floor: ' + this.currentFloor);
                 }
             }
+            this.direction = null
             this.status = 'stopped'
-            this.floorRequestList.shift()
+            this.floorRequestList.shift();
         }
     }
 
@@ -189,25 +188,25 @@ class Elevator {
     //Door operation controller
     doorController() {
         this.door = 'opened'
-        console.log('Elevator doors are ' + this.door + '.')
-        console.log('Waiting for occupant(s) to transition.')
+        console.log('Elevator doors are ' + this.door + '.');
+        console.log('Waiting for occupant(s) to transition.');
         //wait 5 seconds
         if (!this.overweight) {
             this.door = 'closing'
             if (!this.door.obstruction) {
                 this.door = 'closed'
-                console.log('Elevator doors are ' + this.door + '.')
+                console.log('Elevator doors are ' + this.door + '.');
             } else {
                 //Wait for obstruction to clear
                 this.door.obstruction = false
-                this.doorController()
+                this.doorController();
             }
         } else {
             while (this.overweight) {
                 //Ring alarm and wait until not overweight
                 this.overweight = false
             }
-            this.doorController()
+            this.doorController();
         }
     }
 
@@ -264,30 +263,32 @@ elevator.requestFloor(6)
 console.log('')
 console.log('')
 
-column.requestElevator(3, 'up')
+elevator = column.requestElevator(3, 'up')
 elevator.requestFloor(5)
 
 console.log('')
 console.log('')
 
-column.requestElevator(9, 'down')
+elevator = column.requestElevator(9, 'down')
 elevator.requestFloor(2)*/
 
-//Scenazrio 3
+//Scenario 3
 let column = new Column(1, 'online', 2, 10);
 
 column.elevatorsList[0].currentFloor = 10
 column.elevatorsList[1].currentFloor = 3
 column.elevatorsList[1].status = 'moving'
+column.elevatorsList[1].direction = 'up'
 
-let elevator = column.requestElevator(3, 'down')
-elevator.requestFloor(2)
+let elevator = column.requestElevator(3, 'down');
+elevator.requestFloor(2);
 
-console.log('')
-console.log('')
+console.log('');
+console.log('');
 
 column.elevatorsList[1].currentFloor = 6
 column.elevatorsList[1].status = 'idle'
+column.elevatorsList[1].direction = 'null'
 
-column.requestElevator(10, 'down')
-elevator.requestFloor(3)
+elevator = column.requestElevator(10, 'down');
+elevator.requestFloor(3);
