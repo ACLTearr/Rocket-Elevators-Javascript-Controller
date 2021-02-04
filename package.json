@@ -1,0 +1,19 @@
+{
+  "name": "js",
+  "version": "1.0.0",
+  "description": "Javascript elevator controller for Rocket Elevators",
+  "main": "residential_controller.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ACLTearr/Rocket-Elevators-Javascript-Controller.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ACLTearr/Rocket-Elevators-Javascript-Controller/issues"
+  },
+  "homepage": "https://github.com/ACLTearr/Rocket-Elevators-Javascript-Controller#readme"
+}

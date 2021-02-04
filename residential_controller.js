@@ -1,7 +1,3 @@
-let elevatorId = 1;
-let floorRequestButtonId = 1;
-let callButtonId = 1;
-
 //Defining the column class
 class Column {
     constructor (id, status, amountOfElevators, amountOfFloors) {
@@ -19,14 +15,14 @@ class Column {
     //Function to create elevators
     makeElevator(amountOfFloors, amountOfElevators) {
         for (let i = 0; i < amountOfElevators; i++) {
-            let elevator = new Elevator(elevatorId, 'idle', amountOfFloors, 1);
+            let elevator = new Elevator(i, 'idle', amountOfFloors, 1);
             this.elevatorsList.push(elevator);
-            elevatorId++;
         }
     }
 
     //Function to create call buttons
     makeCallButton(amountOfFloors) {
+        let callButtonId = 1;
         let callButtonCounter = 1;
         for (let i = 0; i < amountOfFloors; i++) {
             //If not last floor
@@ -128,12 +124,11 @@ class Elevator {
 
     //Function to create floor request buttons
     makeFloorRequestButton(amountOfFloors) {
-        let floorRequestButtonCounter = 1;
+        let floorRequestButtonCounterId = 1;
         for (let i = 0; i < amountOfFloors; i++) {
-            let floorRequestButton = new FloorRequestButton(floorRequestButtonId, 'off', floorRequestButtonCounter);
+            let floorRequestButton = new FloorRequestButton(floorRequestButtonCounterId, 'off', floorRequestButtonCounterId);
             this.floorRequestButtonsList.push(floorRequestButton);
-            floorRequestButtonCounter++;
-            floorRequestButtonId++;
+            floorRequestButtonCounterId++;
         }
     }
 
@@ -147,6 +142,7 @@ class Elevator {
         console.log('Elevator is ' + this.status + '.');
         this.doorController();
         if (this.floorRequestList.length = []) {
+            this.direction = null
             this.status = 'idle'
        }
         console.log('Elevator is ' + this.status + '.');
@@ -170,7 +166,6 @@ class Elevator {
                     console.log('Elevator is at floor: ' + this.currentFloor);
                 }
             }
-            this.direction = null
             this.status = 'stopped'
             this.floorRequestList.shift();
         }
@@ -292,3 +287,5 @@ column.elevatorsList[1].direction = 'null'
 
 elevator = column.requestElevator(10, 'down');
 elevator.requestFloor(3);
+
+module.exports = {Column, Elevator, CallButton, FloorRequestButton, Door}
