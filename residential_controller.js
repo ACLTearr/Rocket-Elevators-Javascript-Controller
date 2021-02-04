@@ -116,6 +116,7 @@ class Elevator {
         this.currentFloor = currentFloor
         this.direction;
         this.door = new Door(id, 'closed')
+        this.overweight = false
         this.floorRequestButtonsList = []
         this.floorRequestList = []
 
@@ -233,59 +234,75 @@ class Door {
     constructor (id, status) {
         this.ID = id
         this.status = status
+        this.overweight = false
     }
 
 } //End Door
 
 //Scenario 1
-/*let column = new Column(1, 'online', 2, 10);
+function scenario1() {
+    let column = new Column(1, 'online', 2, 10)
 
-column.elevatorsList[0].currentFloor = 2
-column.elevatorsList[1].currentFloor = 6
+    column.elevatorsList[0].currentFloor = 2
+    column.elevatorsList[1].currentFloor = 6
 
-let elevator = column.requestElevator(3, 'up')
-elevator.requestFloor(7)*/
+    let elevator = column.requestElevator(3, 'up')
+    elevator.requestFloor(7)
+}
 
 //Scenario 2
-/*let column = new Column(1, 'online', 2, 10);
+function scenario2() {
+    let column = new Column(1, 'online', 2, 10);
 
-column.elevatorsList[0].currentFloor = 10
-column.elevatorsList[1].currentFloor = 3
+    column.elevatorsList[0].currentFloor = 10
+    column.elevatorsList[1].currentFloor = 3
 
-let elevator = column.requestElevator(1, 'up')
-elevator.requestFloor(6)
+    let elevator = column.requestElevator(1, 'up')
+    elevator.requestFloor(6)
 
-console.log('')
-console.log('')
+    console.log('')
+    console.log('')
 
-elevator = column.requestElevator(3, 'up')
-elevator.requestFloor(5)
+    elevator = column.requestElevator(3, 'up')
+    elevator.requestFloor(5)
 
-console.log('')
-console.log('')
+    console.log('')
+    console.log('')
 
-elevator = column.requestElevator(9, 'down')
-elevator.requestFloor(2)*/
+    elevator = column.requestElevator(9, 'down')
+    elevator.requestFloor(2)
+}
 
 //Scenario 3
-let column = new Column(1, 'online', 2, 10);
+function scenario3() {
+    let column = new Column(1, 'online', 2, 10)
 
-column.elevatorsList[0].currentFloor = 10
-column.elevatorsList[1].currentFloor = 3
-column.elevatorsList[1].status = 'moving'
-column.elevatorsList[1].direction = 'up'
+    column.elevatorsList[0].currentFloor = 10
+    column.elevatorsList[1].currentFloor = 3
+    column.elevatorsList[1].status = 'moving'
+    column.elevatorsList[1].direction = 'up'
 
-let elevator = column.requestElevator(3, 'down');
-elevator.requestFloor(2);
+    let elevator = column.requestElevator(3, 'down')
+    elevator.requestFloor(2)
 
-console.log('');
-console.log('');
+    console.log('')
+    console.log('')
 
-column.elevatorsList[1].currentFloor = 6
-column.elevatorsList[1].status = 'idle'
-column.elevatorsList[1].direction = 'null'
+    column.elevatorsList[1].currentFloor = 6
+    column.elevatorsList[1].status = 'idle'
+    column.elevatorsList[1].direction = 'null'
 
-elevator = column.requestElevator(10, 'down');
-elevator.requestFloor(3);
+    elevator = column.requestElevator(10, 'down')
+    elevator.requestFloor(3)
+}
+
+//Uncomment to run scenario 1
+//scenario1()
+
+//Uncomment to run scenario 2
+//scenario2()
+
+//Uncomment to run scenario 3
+scenario3()
 
 module.exports = {Column, Elevator, CallButton, FloorRequestButton, Door}
