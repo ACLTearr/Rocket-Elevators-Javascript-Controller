@@ -317,7 +317,7 @@ function scenario3() {
 }
 
 //Uncomment to run scenario 1
-scenario1()
+//scenario1()
 
 //Uncomment to run scenario 2
 //scenario2()
