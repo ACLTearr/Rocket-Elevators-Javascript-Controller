@@ -12,15 +12,17 @@ class Column {
         this.makeCallButton(amountOfFloors); //Calling the function to create the call buttons
     }
 
-    //Function to create elevators
+    //Method to create elevators
     makeElevator(amountOfFloors, amountOfElevators) {
+        let elevatorID = 1
         for (let i = 0; i < amountOfElevators; i++) {
-            let elevator = new Elevator(i, 'idle', amountOfFloors, 1);
+            let elevator = new Elevator(elevatorID, 'idle', amountOfFloors, 1);
             this.elevatorsList.push(elevator);
+            elevatorID++
         }
     }
 
-    //Function to create call buttons
+    //Method to create call buttons
     makeCallButton(amountOfFloors) {
         let callButtonId = 1;
         let callButtonCounter = 1;
@@ -123,7 +125,7 @@ class Elevator {
         this.makeFloorRequestButton(amountOfFloors); //Calling the function to create floor request buttons
     }
 
-    //Function to create floor request buttons
+    //Method to create floor request buttons
     makeFloorRequestButton(amountOfFloors) {
         let floorRequestButtonCounterId = 1;
         for (let i = 0; i < amountOfFloors; i++) {
@@ -239,8 +241,11 @@ class Door {
 
 } //End Door
 
-//Scenario 1
+//Defining scenario 1
 function scenario1() {
+    //In scenario 1, an individual is on floor 3, going up to floor 7.
+    //Elevator 1 is at floor 2, and Elevator 2 is at floor 6.
+    //Elevator 1 will be sent.
     let column = new Column(1, 'online', 2, 10)
 
     column.elevatorsList[0].currentFloor = 2
@@ -250,8 +255,17 @@ function scenario1() {
     elevator.requestFloor(7)
 }
 
-//Scenario 2
+//Defining scenario 2
 function scenario2() {
+    //In scenario 2, an individual is on floor 1, going up to floor 6.
+    //Elevator 1 is at floor 10, and Elevator 2 is at floor 3.
+    //Elevator 2 will be sent.
+    //An individial is on floor 3, going up to floor 5.
+    //Elevator 1 is at floor 10, and Elevator 2 is at floor 6.
+    //Elevator 2 will be sent.
+    //An individial is on floor 9, going down to floor 2.
+    //Elevator 1 is at floor 10, and Elevator 2 is at floor 5.
+    //Elevator 1 will be sent.
     let column = new Column(1, 'online', 2, 10);
 
     column.elevatorsList[0].currentFloor = 10
@@ -273,8 +287,14 @@ function scenario2() {
     elevator.requestFloor(2)
 }
 
-//Scenario 3
+//Defining scenario 3
 function scenario3() {
+    //In scenario 2, an individual is on floor 3, going down to floor 2.
+    //Elevator 1 is at floor 10, and Elevator 2 is moving from floor 3 to 6.
+    //Elevator 1 will be sent.
+    //An individial is on floor 10, going down to floor 3.
+    //Elevator 1 is at floor 10, and Elevator 2 is at floor 6.
+    //Elevator 2 will be sent.
     let column = new Column(1, 'online', 2, 10)
 
     column.elevatorsList[0].currentFloor = 10
@@ -297,7 +317,7 @@ function scenario3() {
 }
 
 //Uncomment to run scenario 1
-//scenario1()
+scenario1()
 
 //Uncomment to run scenario 2
 //scenario2()
